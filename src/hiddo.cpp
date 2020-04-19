@@ -71,5 +71,9 @@ void Hiddo::turn_on()
 	uint8_t tmp = readreg8(REG_CONFIG1);
 	tmp &= ~CONFIG1_POWERDOWN;
 	writereg8(REG_CONFIG1, tmp);
+
+	// Send again: Workaround hiddo not waking up for some reason
+	delay(5);
+	writereg8(REG_CONFIG1, tmp);
 }
 
