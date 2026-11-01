@@ -55,7 +55,7 @@ void Hiddo::read()
 	if(_intstat & INTSTAT_ROTARY)
 		_rotval = readreg8(REG_ROTVAL);	
 	if(_intstat & INTSTAT_IR)
-		_ircmd = readreg16_LE(REG_IR_LSB);
+		_ircmd = readreg16_LM(REG_IR_LSB);
 }
 
 void Hiddo::turn_off()
