@@ -9,8 +9,12 @@
 bool Hiddo::begin()
 {
 	// reset();
-	// Clear all interrupts
-	return readreg8(REG_INTSTAT) == -1 ? false : true;
+	if(!TwoWireDevice::begin())
+		return false;
+
+	// Clear all interrupts (and checks device is there)
+	readreg8(REG_INTSTAT);
+	return last_error() == 0;
 }
 
 void Hiddo::reset()
