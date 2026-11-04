@@ -44,10 +44,9 @@ void Hiddo::read()
 {
 	_intstat = readreg8(REG_INTSTAT);
 
-	// Bad read workaround
-	if(_intstat == 0xFF)
+	if(last_error())
 	{
-		ERROR("hiddo.read() failed (FF)");
+		ERROR("hiddo.read() failed");
 		_intstat = 0x00;
 		_rotval = 0x00;
 		_ircmd = 0x0000;
@@ -57,9 +56,17 @@ void Hiddo::read()
 	_rotval = 0;
 	_ircmd = 0x0000;
 	if(_intstat & INTSTAT_ROTARY)
-		_rotval = readreg8(REG_ROTVAL);	
+	{
+		_rotval = readreg8(REG_ROTVAL);
+		if(last_error())
+			_rotval = 0;
+	};
 	if(_intstat & INTSTAT_IR)
+	{
 		_ircmd = readreg16_LM(REG_IR_LSB);
+		if(last_error())
+			_ircmd = 0x0000;
+	};
 }
 
 void Hiddo::turn_off()
