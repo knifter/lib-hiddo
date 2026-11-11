@@ -10,9 +10,8 @@ bool Hiddo::begin()
 	if(!TwoWireDevice::begin())
 		return false;
 
-	// Clear all interrupts (and checks device is there)
-	readreg8(REG_INTSTAT);
-	return last_error() == 0;
+	// Check device is there
+	return ping();
 }
 
 void Hiddo::reset()
