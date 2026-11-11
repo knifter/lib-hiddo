@@ -1,7 +1,5 @@
 #include "hiddo.h"
 
-#include "registers.h"
-
 #ifndef ERROR
 #define ERROR(x)		Serial.println(x);
 #endif
@@ -55,13 +53,13 @@ void Hiddo::read()
 
 	_rotval = 0;
 	_ircmd = 0x0000;
-	if(_intstat & INTSTAT_ROTARY)
+	if(_intstat & INT_ROTARY)
 	{
 		_rotval = readreg8(REG_ROTVAL);
 		if(last_error())
 			_rotval = 0;
 	};
-	if(_intstat & INTSTAT_IR)
+	if(_intstat & INT_IR)
 	{
 		_ircmd = readreg16_LM(REG_IR_LSB);
 		if(last_error())
